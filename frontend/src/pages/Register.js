@@ -1,7 +1,7 @@
 // pages/Register.js
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import axios from "axios";
+import API from "../utils/api"; // ✅ use centralized API
 
 export default function Register() {
   const [name, setName] = useState("");
@@ -13,7 +13,7 @@ export default function Register() {
   const handleRegister = async (e) => {
     e.preventDefault();
     try {
-      const res = await axios.post("https://movierulz-z0q0.onrender.com/api/auth/register", {
+      const res = await API.post("/api/auth/register", {
         name,
         email,
         password,
@@ -80,10 +80,8 @@ export default function Register() {
         </button>
       </form>
 
-      {/* Error or info message */}
       {message && <p style={{ color: "red", textAlign: "center" }}>{message}</p>}
 
-      {/* Link to login */}
       <p style={{ textAlign: "center", marginTop: "15px" }}>
         Already have an account?{" "}
         <button

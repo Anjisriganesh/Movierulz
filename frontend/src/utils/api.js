@@ -1,7 +1,9 @@
 import axios from "axios";
 
+const BASE_URL = process.env.REACT_APP_BACKEND_URL || "http://localhost:5000";
+
 const API = axios.create({
-  baseURL: "https://movierulz-z0q0.onrender.com", 
+  baseURL: BASE_URL,
   withCredentials: true, 
 });
 

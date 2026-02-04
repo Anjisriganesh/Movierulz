@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import axios from "axios";
+import API from "../utils/api"; // ✅ use your API instance
 
 export default function Login() {
   const [email, setEmail] = useState("");
@@ -10,18 +10,24 @@ export default function Login() {
 
   const handleLogin = async (e) => {
     e.preventDefault();
+
     try {
-      const res = await axios.post("https://movierulz-z0q0.onrender.com/api/auth/login", { email, password });
+      // ✅ Use API instead of axios
+      const res = await API.post("/api/auth/login", { email, password });
+
       if (res.data.success) {
-        
+        // Save user info in localStorage
         localStorage.setItem("userId", res.data.user._id);
         localStorage.setItem("userName", res.data.user.name);
-        navigate("/"); 
+
+        // Redirect to home
+        navigate("/");
       } else {
         setMessage(res.data.message || "Login failed");
       }
     } catch (err) {
-      setMessage("Login failed");
+      console.error("Login error:", err.response?.data || err.message);
+      setMessage(err.response?.data?.message || "Login failed");
     }
   };
 
@@ -67,10 +73,10 @@ export default function Login() {
         </button>
       </form>
 
-      
+      {/* Show error message */}
       {message && <p style={{ color: "red", textAlign: "center" }}>{message}</p>}
 
-      
+      {/* Link to register */}
       <p style={{ textAlign: "center", marginTop: "15px" }}>
         Don't have an account?{" "}
         <button

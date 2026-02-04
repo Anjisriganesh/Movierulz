@@ -1,6 +1,6 @@
 import React, { useEffect, useState, useCallback } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
-import axios from "axios";
+import API from "../utils/api"; // ✅ centralized axios
 
 export default function SeatSelection() {
   const location = useLocation();
@@ -11,12 +11,13 @@ export default function SeatSelection() {
   const [selectedSeats, setSelectedSeats] = useState([]);
   const [bookedSeats, setBookedSeats] = useState([]);
 
+  // ✅ fetch show & booked seats
   const fetchShow = useCallback(async () => {
     try {
-      const res = await axios.get(`https://movierulz-z0q0.onrender.com/api/shows/show/${showId}`);
+      const res = await API.get(`/api/shows/show/${showId}`);
       setShow(res.data);
 
-      const bookedRes = await axios.get(`https://movierulz-z0q0.onrender.com/api/bookings/booked-seats/${showId}`);
+      const bookedRes = await API.get(`/api/bookings/booked-seats/${showId}`);
       setBookedSeats(bookedRes.data.bookedSeats);
     } catch (err) {
       console.error("Fetch show error:", err);
@@ -31,7 +32,7 @@ export default function SeatSelection() {
     if (bookedSeats.includes(seatNumber)) return;
 
     if (selectedSeats.includes(seatNumber)) {
-      setSelectedSeats(selectedSeats.filter(s => s !== seatNumber));
+      setSelectedSeats(selectedSeats.filter((s) => s !== seatNumber));
     } else {
       if (selectedSeats.length < tickets) {
         setSelectedSeats([...selectedSeats, seatNumber]);
@@ -50,7 +51,7 @@ export default function SeatSelection() {
 
       if (!selectedSeats.length) return;
 
-      await axios.post("https://movierulz-z0q0.onrender.com/api/bookings", {
+      await API.post("/api/bookings", {
         userId,
         movieId: movie._id,
         showId,

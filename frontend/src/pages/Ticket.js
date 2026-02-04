@@ -1,23 +1,23 @@
+import { useEffect, useCallback } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import jsPDF from "jspdf";
 import html2canvas from "html2canvas";
 import { QRCodeCanvas } from "qrcode.react";
-import { useEffect, useCallback } from "react";
-import axios from "axios";
+import API from "../utils/api"; // ✅ centralized API helper
 
 export default function Ticket() {
   const { state } = useLocation();
   const navigate = useNavigate();
   const { movie, seats, paymentId, showTime, theatre, amount } = state || {};
   const userId = localStorage.getItem("userId");
-
   const finalAmount = amount ?? seats?.length * 200;
 
+  // ✅ Save ticket to backend
   const saveTicket = useCallback(async () => {
     if (!movie || !paymentId) return;
 
     try {
-      await axios.post("https://movierulz-z0q0.onrender.com/api/tickets/save", {
+      await API.post("/api/tickets/save", {
         userId,
         movieId: movie._id,
         movieTitle: movie.title,
@@ -40,6 +40,7 @@ export default function Ticket() {
 
   if (!movie) return <p style={{ textAlign: "center" }}>Ticket not found</p>;
 
+  // ✅ Download ticket as PDF
   const downloadPDF = async () => {
     const ticketElement = document.getElementById("ticket");
     const canvas = await html2canvas(ticketElement, { scale: 2 });
@@ -52,6 +53,11 @@ export default function Ticket() {
     pdf.addImage(imgData, "PNG", 0, 10, pdfWidth, imgHeight);
     pdf.save("Movie_Ticket.pdf");
   };
+
+  // ✅ Use BASE_URL for images too
+  const posterURL = movie.poster.startsWith("http")
+    ? movie.poster
+    : `${process.env.REACT_APP_BACKEND_URL || "http://localhost:5000"}${movie.poster}`;
 
   return (
     <div className="container">
@@ -86,7 +92,7 @@ export default function Ticket() {
         }}
       >
         <img
-          src={`https://movierulz-z0q0.onrender.com${movie.poster}`}
+          src={posterURL}
           alt={movie.title}
           style={{ width: "100%", borderRadius: "8px" }}
         />
@@ -98,7 +104,15 @@ export default function Ticket() {
         <p><strong>Payment ID:</strong> {paymentId}</p>
         <p><strong>Amount:</strong> ₹{finalAmount}</p>
 
-        <div style={{ marginTop: "10px", background: "#fff", padding: "8px", borderRadius: "6px", display: "inline-block" }}>
+        <div
+          style={{
+            marginTop: "10px",
+            background: "#fff",
+            padding: "8px",
+            borderRadius: "6px",
+            display: "inline-block"
+          }}
+        >
           <QRCodeCanvas
             value={`Movie: ${movie.title}, Seats: ${seats.join(", ")}, Payment: ${paymentId}`}
             size={150}
