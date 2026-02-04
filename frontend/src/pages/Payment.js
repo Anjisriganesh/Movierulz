@@ -33,7 +33,7 @@ export default function Payment() {
 
     try {
       // ✅ SAVE BOOKING TO BACKEND
-      await axios.post("https://movierulzg.onrender.com/api/tickets/book", {
+      await axios.post("https://movierulz-z0q0.onrender.com/api/tickets/book", {
         userId,
         movieId: movie._id,
         movieTitle: movie.title,

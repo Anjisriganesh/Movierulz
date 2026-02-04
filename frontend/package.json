@@ -3,9 +3,8 @@
   "name": "frontend",
   "version": "0.1.0",
   "private": true,
-  "homepage": "https://ganeshkoppisetti1.github.io/MovieRulz2",
 
-  "proxy": "https://movierulzg.onrender.com",
+  "proxy": "https://movierulz-z0q0.onrender.com",
   "dependencies": {
     "@testing-library/dom": "^10.4.1",
     "@testing-library/jest-dom": "^6.9.1",

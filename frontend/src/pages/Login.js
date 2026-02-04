@@ -11,7 +11,7 @@ export default function Login() {
   const handleLogin = async (e) => {
     e.preventDefault();
     try {
-      const res = await axios.post("https://movierulzg.onrender.com/api/auth/login", { email, password });
+      const res = await axios.post("https://movierulz-z0q0.onrender.com/api/auth/login", { email, password });
       if (res.data.success) {
         
         localStorage.setItem("userId", res.data.user._id);

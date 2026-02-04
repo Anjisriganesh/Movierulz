@@ -13,7 +13,7 @@ export default function Register() {
   const handleRegister = async (e) => {
     e.preventDefault();
     try {
-      const res = await axios.post("https://movierulzg.onrender.com/api/auth/register", {
+      const res = await axios.post("https://movierulz-z0q0.onrender.com/api/auth/register", {
         name,
         email,
         password,

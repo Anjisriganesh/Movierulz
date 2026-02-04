@@ -9,7 +9,7 @@ export default function MyBookings() {
 
   const fetchTickets = useCallback(async () => {
     try {
-      const res = await axios.get(`https://movierulzg.onrender.com/api/tickets/my/${userId}`);
+      const res = await axios.get(`https://movierulz-z0q0.onrender.com/api/tickets/my/${userId}`);
       setTickets(res.data.tickets);
     } catch (err) {
       console.error("Error fetching tickets:", err);
@@ -24,7 +24,7 @@ export default function MyBookings() {
     if (!window.confirm("Cancel this booking?")) return;
 
     try {
-      await axios.put(`https://movierulzg.onrender.com/api/tickets/cancel/${id}`);
+      await axios.put(`https://movierulz-z0q0.onrender.com/api/tickets/cancel/${id}`);
       setTickets(tickets.map(t =>
         t._id === id ? { ...t, status: "Cancelled" } : t
       ));
@@ -47,7 +47,7 @@ export default function MyBookings() {
 
       {tickets.map(ticket => (
         <div key={ticket._id} className="booking-card">
-          <img src={`https://movierulzg.onrender.com${ticket.poster}`} alt={ticket.movieTitle} />
+          <img src={`https://movierulz-z0q0.onrender.com${ticket.poster}`} alt={ticket.movieTitle} />
 
           <div className="booking-info">
             <h3>{ticket.movieTitle}</h3>
