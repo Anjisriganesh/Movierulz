@@ -1,68 +1,39 @@
 import { useLocation, useNavigate } from "react-router-dom";
-import axios from "axios";
 
 export default function Payment() {
-  const location = useLocation();
+  const { state } = useLocation();
   const navigate = useNavigate();
+  const { movie, seats } = state;
 
-  const { movie, seats } = location.state || {};
-
-  if (!movie || !seats) {
-    return <p style={{ textAlign: "center" }}>Payment details not found</p>;
-  }
-
-  // 🔹 Check login
+  // Check if user is logged in
   const userId = localStorage.getItem("userId");
 
-  const handlePayment = async () => {
+  const handlePayment = () => {
     if (!userId) {
+      // If not logged in, redirect to login page
       alert("Please sign in to make payment!");
       navigate("/login", {
-        state: {
-          redirectAfterLogin: "/payment",
-          movie,
-          seats,
-        },
+        state: { movie, seats, redirectAfterLogin: "/payment" },
       });
       return;
     }
 
-    // 🔹 Simulated payment success
-    const paymentId = "PAY" + Date.now();
+    // Simulate payment success for logged-in user
+    const paymentId = "PAY" + Math.floor(Math.random() * 1000000);
     const amount = seats.length * 200;
 
-    try {
-      // ✅ SAVE BOOKING TO BACKEND
-      await axios.post("https://movierulz-z0q0.onrender.com/api/tickets/book", {
-        userId,
-        movieId: movie._id,
-        movieTitle: movie.title,
-        poster: movie.poster,
+    alert("Payment Successful 🎉");
+
+    navigate("/ticket", {
+      state: {
+        movie,
         seats,
-        amount,
+        paymentId,
         showTime: "6:00 PM",
         theatre: "PVR Cinemas",
-        paymentId,
-        status: "Booked",
-      });
-
-      alert("Payment Successful 🎉");
-
-      navigate("/ticket", {
-        state: {
-          movie,
-          seats,
-          paymentId,
-          showTime: "6:00 PM",
-          theatre: "PVR Cinemas",
-          amount,
-          status: "Booked",
-        },
-      });
-    } catch (error) {
-      console.error("Booking save failed:", error);
-      alert("Payment succeeded but booking could not be saved!");
-    }
+        amount,
+      },
+    });
   };
 
   return (
@@ -71,17 +42,10 @@ export default function Payment() {
         ⬅ Back
       </button>
 
-      <h2>💳 Payment</h2>
-
-      <p>
-        <strong>Movie:</strong> {movie.title}
-      </p>
-      <p>
-        <strong>Seats:</strong> {seats.join(", ")}
-      </p>
-      <p>
-        <strong>Total Amount:</strong> ₹{seats.length * 200}
-      </p>
+      <h2>Payment</h2>
+      <p><strong>Movie:</strong> {movie.title}</p>
+      <p><strong>Seats:</strong> {seats.join(", ")}</p>
+      <p><strong>Total Amount:</strong> ₹{seats.length * 200}</p>
 
       <button
         onClick={handlePayment}
@@ -93,7 +57,6 @@ export default function Payment() {
           borderRadius: "6px",
           marginTop: "20px",
           cursor: "pointer",
-          fontWeight: "600",
         }}
       >
         Pay Now

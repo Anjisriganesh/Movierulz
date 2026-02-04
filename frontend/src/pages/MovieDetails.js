@@ -10,7 +10,7 @@ export default function MovieDetail() {
   return (
     <div className="container">
       <img
-        src={`${movie.banner || movie.poster}`}
+        src={`https://movierulz-z0q0.onrender.com${movie.banner || movie.poster}`}
         alt={movie.title}
         style={{ width: "100%", maxHeight: "400px", objectFit: "cover" }}
       />

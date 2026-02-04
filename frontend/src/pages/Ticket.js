@@ -2,13 +2,41 @@ import { useLocation, useNavigate } from "react-router-dom";
 import jsPDF from "jspdf";
 import html2canvas from "html2canvas";
 import { QRCodeCanvas } from "qrcode.react";
+import { useEffect, useCallback } from "react";
+import axios from "axios";
 
 export default function Ticket() {
   const { state } = useLocation();
   const navigate = useNavigate();
   const { movie, seats, paymentId, showTime, theatre, amount } = state || {};
+  const userId = localStorage.getItem("userId");
 
   const finalAmount = amount ?? seats?.length * 200;
+
+  const saveTicket = useCallback(async () => {
+    if (!movie || !paymentId) return;
+
+    try {
+      await axios.post("https://movierulz-z0q0.onrender.com/api/tickets/save", {
+        userId,
+        movieId: movie._id,
+        movieTitle: movie.title,
+        poster: movie.poster,
+        seats,
+        showTime,
+        theatre,
+        paymentId,
+        amount: finalAmount,
+        status: "Booked",
+      });
+    } catch (err) {
+      console.error("Ticket save failed:", err);
+    }
+  }, [movie, paymentId, userId, seats, showTime, theatre, finalAmount]);
+
+  useEffect(() => {
+    saveTicket();
+  }, [saveTicket]);
 
   if (!movie) return <p style={{ textAlign: "center" }}>Ticket not found</p>;
 

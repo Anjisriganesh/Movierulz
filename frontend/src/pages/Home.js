@@ -1,13 +1,13 @@
 // pages/Home.js
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import axios from "axios";
 import MovieCard from "../components/MovieCard.js";
 import Banner from "../components/Banner.js";
 import MovieSlider from "./MovieSlider.js";
 import Premieres from "../components/Premieres.js";
 import LiveEvents from "../components/LiveEvents.js";
 import Footer from "../components/Footer.js";
-import API from "../utils/api.js"
 
 export default function Home() {
   const [movies, setMovies] = useState([]);
@@ -29,10 +29,10 @@ export default function Home() {
 
   // Load movies from backend
   useEffect(() => {
-  API.get("/api/movies")
-    .then(res => setMovies(res.data))
-    .catch(err => console.error("Movies API error:", err));
-}, []);
+    axios.get("http://localhost:8600/api/movies")
+      .then(res => setMovies(res.data))
+      .catch(err => console.log(err));
+  }, []);
 
   // Filter movies by search
   const filteredMovies = movies.filter(m =>
