@@ -14,12 +14,13 @@ const app = express();
 app.use(
   cors({
     origin: [
-      "http://localhost:3000",
-      "https://movierulzp.netlify.app"
+      "http://localhost:3000", // local frontend
+      "https://jade-biscotti-26b01c.netlify.app" // deployed frontend
     ],
-    credentials: true,
+    credentials: true, // allow cookies if needed
   })
 );
+
 
 
 
