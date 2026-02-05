@@ -10,27 +10,28 @@ export default function MovieDetail() {
   return (
     <div className="container">
       <img
-        src={movie.banner || movie.poster}   // direct Cloudinary URL
+        src={`https://movierulz-z0q0.onrender.com${movie.banner || movie.poster}`}
         alt={movie.title}
         style={{ width: "100%", maxHeight: "400px", objectFit: "cover" }}
       />
 
       {/* Movie meta info after poster */}
       <p className="movie-meta">
-        <span className="meta-item">{movie.duration || "2h 44m"}</span>
-        <span className="meta-dot">•</span>
+  <span className="meta-item">{movie.duration || "2h 44m"}</span>
+  <span className="meta-dot">•</span>
 
-        <span className="meta-item">{movie.genre}</span>
-        <span className="meta-dot">•</span>
+  <span className="meta-item">{movie.genre}</span>
+  <span className="meta-dot">•</span>
 
-        <span className="meta-item">{movie.certificate || "UA13+"}</span>
-        <span className="meta-dot">•</span>
+  <span className="meta-item">{movie.certificate || "UA13+"}</span>
+  <span className="meta-dot">•</span>
 
-        <span className="meta-item">{movie.format || "2D, DOLBY CINEMA 2D"}</span>
-        <span className="meta-dot">•</span>
+  <span className="meta-item">{movie.format || "2D, DOLBY CINEMA 2D"}</span>
+  <span className="meta-dot">•</span>
 
-        <span className="meta-item">{movie.language || "Telugu"}</span>
-      </p>
+  <span className="meta-item">{movie.language || "Telugu"}</span>
+</p>
+
 
       <h2>{movie.title}</h2>
       <p><b>Genre:</b> {movie.genre}</p>
@@ -52,7 +53,11 @@ export default function MovieDetail() {
         🎟️ Book Ticket
       </button>
 
-      <button className="back-btn2" onClick={() => navigate(-1)}>
+      <button
+        className="back-btn2"
+        onClick={() => navigate(-1)}
+        
+      >
         ⬅ Back
       </button>
     </div>
