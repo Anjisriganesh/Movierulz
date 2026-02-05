@@ -9,7 +9,7 @@ export default function MovieCard({ movie }) {
       onClick={() => navigate(`/movie/${movie._id}`, { state: { movie } })}
     >
       <img
-        src={`${process.env.REACT_APP_BACKEND_URL}/uploads/${movie.poster}`}
+        src={`${process.env.REACT_APP_BACKEND_URL}${movie.poster}`}
         alt={movie.title}
         style={{ width: "150px", height: "220px", objectFit: "cover" }}
       />
