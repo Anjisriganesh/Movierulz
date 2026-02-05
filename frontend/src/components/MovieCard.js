@@ -4,9 +4,12 @@ export default function MovieCard({ movie }) {
   const navigate = useNavigate();
 
   return (
-    <div className="movie-card" onClick={() => navigate(`/movie/${movie._id}`, { state: { movie } })}>
+    <div
+      className="movie-card"
+      onClick={() => navigate(`/movie/${movie._id}`, { state: { movie } })}
+    >
       <img
-        src={`https://movierulz-z0q0.onrender.com${movie.poster}`}
+        src={`${process.env.REACT_APP_BACKEND_URL}/uploads/${movie.poster}`}
         alt={movie.title}
         style={{ width: "150px", height: "220px", objectFit: "cover" }}
       />

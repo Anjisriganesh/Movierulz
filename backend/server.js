@@ -8,34 +8,15 @@ import authRoutes from "./routes/authRoutes.js";
 import showRoute from "./routes/showRoute.js";
 import bookingRoutes from "./routes/bookingRoutes.js";
 import cors from 'cors'
-import path from "path";
-import { fileURLToPath } from "url";
-
 dotenv.config();
 const app = express();
 
-app.use(
-  cors({
-    origin: [
-      "http://localhost:3000", // local frontend
-      "https://jade-biscotti-26b01c.netlify.app" // deployed frontend
-    ],
-    credentials: true, // allow cookies if needed
-  })
-);
-
-
+app.use(cors());
 
 
 
 app.use(express.json());   
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = path.dirname(__filename);
-
-app.use(
-  "/uploads",
-  express.static(path.join(__dirname, "uploads"))
-);
+app.use("/uploads", express.static("uploads")); 
 
 connectDB();
 
