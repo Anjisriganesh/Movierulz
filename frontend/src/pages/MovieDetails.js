@@ -7,18 +7,20 @@ export default function MovieDetail() {
 
   if (!movie) return <p style={{ textAlign: "center" }}>Movie not found</p>;
 
-  // Use backend URL from environment variable
-  const BASE_URL = process.env.REACT_APP_BACKEND_URL || "http://localhost:5000";
+  const BASE_URL = process.env.REACT_APP_BACKEND_URL || "http://localhost:8600";
+
+  const bannerURL = movie.banner.startsWith("http")
+    ? movie.banner
+    : `${BASE_URL}${movie.banner || movie.poster}`;
 
   return (
     <div className="container">
       <img
-        src={`${BASE_URL}${movie.banner || movie.poster}`}
+        src={bannerURL}
         alt={movie.title}
         style={{ width: "100%", maxHeight: "400px", objectFit: "cover" }}
       />
 
-      {/* Movie meta info */}
       <p className="movie-meta">
         <span className="meta-item">{movie.duration || "2h 44m"}</span>
         <span className="meta-dot">•</span>
@@ -54,13 +56,7 @@ export default function MovieDetail() {
       <button
         className="back-btn2"
         onClick={() => navigate(-1)}
-        style={{
-          padding: "10px 16px",
-          background: "gray",
-          color: "#fff",
-          border: "none",
-          borderRadius: "6px"
-        }}
+        
       >
         ⬅ Back
       </button>

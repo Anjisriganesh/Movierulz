@@ -1,5 +1,5 @@
 import { useState } from "react";
-import axios from "axios";
+import API from "../utils/api"; 
 
 export default function AddMovie() {
   const [title, setTitle] = useState("");
@@ -23,7 +23,7 @@ export default function AddMovie() {
     formData.append("banner", banner);
 
     try {
-      const res = await axios.post("/api/movies", formData, {
+      const res = await API.post("/api/movies", formData, {
         headers: { "Content-Type": "multipart/form-data" },
       });
 
