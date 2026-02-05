@@ -1,13 +1,16 @@
 import express from "express";
 import multer from "multer";
+import { CloudinaryStorage } from "multer-storage-cloudinary";
+import cloudinary from "../config/cloudinary.js";
 
 const router = express.Router();
 
-const storage = multer.diskStorage({
-  destination: "uploads/",
-  filename: (req, file, cb) => {
-    cb(null, Date.now() + "-" + file.originalname);
-  }
+const storage = new CloudinaryStorage({
+  cloudinary,
+  params: {
+    folder: "movierulz_posters",
+    allowed_formats: ["jpg", "jpeg", "png", "webp"],
+  },
 });
 
 const upload = multer({ storage });
@@ -15,7 +18,7 @@ const upload = multer({ storage });
 router.post("/", upload.single("image"), (req, res) => {
   res.json({
     success: true,
-    path: `/uploads/${req.file.filename}`
+    imageUrl: req.file.path, // Cloudinary URL
   });
 });
 

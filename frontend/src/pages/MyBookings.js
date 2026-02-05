@@ -47,7 +47,8 @@ export default function MyBookings() {
 
       {tickets.map(ticket => (
         <div key={ticket._id} className="booking-card">
-          <img src={`https://movierulz-z0q0.onrender.com${ticket.poster}`} alt={ticket.movieTitle} />
+          {/* Direct Cloudinary URL */}
+          <img src={ticket.poster} alt={ticket.movieTitle} />
 
           <div className="booking-info">
             <h3>{ticket.movieTitle}</h3>
