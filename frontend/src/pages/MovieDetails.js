@@ -5,33 +5,33 @@ export default function MovieDetail() {
   const movie = state?.movie;
   const navigate = useNavigate();
 
-  if (!movie) return <p style={{ textAlign: "center" }}>Movie not found</p>;
-
-  const BASE_URL = process.env.REACT_APP_BACKEND_URL || "http://localhost:8600";
-
-  const bannerURL = movie.banner.startsWith("http")
-    ? movie.banner
-    : `${BASE_URL}${movie.banner || movie.poster}`;
+  if (!movie) return <p>Movie not found</p>;
 
   return (
     <div className="container">
       <img
-        src={bannerURL}
+        src={`https://movierulz-z0q0.onrender.com${movie.banner || movie.poster}`}
         alt={movie.title}
         style={{ width: "100%", maxHeight: "400px", objectFit: "cover" }}
       />
 
+      {/* Movie meta info after poster */}
       <p className="movie-meta">
-        <span className="meta-item">{movie.duration || "2h 44m"}</span>
-        <span className="meta-dot">•</span>
-        <span className="meta-item">{movie.genre}</span>
-        <span className="meta-dot">•</span>
-        <span className="meta-item">{movie.certificate || "UA13+"}</span>
-        <span className="meta-dot">•</span>
-        <span className="meta-item">{movie.format || "2D, DOLBY CINEMA 2D"}</span>
-        <span className="meta-dot">•</span>
-        <span className="meta-item">{movie.language || "Telugu"}</span>
-      </p>
+  <span className="meta-item">{movie.duration || "2h 44m"}</span>
+  <span className="meta-dot">•</span>
+
+  <span className="meta-item">{movie.genre}</span>
+  <span className="meta-dot">•</span>
+
+  <span className="meta-item">{movie.certificate || "UA13+"}</span>
+  <span className="meta-dot">•</span>
+
+  <span className="meta-item">{movie.format || "2D, DOLBY CINEMA 2D"}</span>
+  <span className="meta-dot">•</span>
+
+  <span className="meta-item">{movie.language || "Telugu"}</span>
+</p>
+
 
       <h2>{movie.title}</h2>
       <p><b>Genre:</b> {movie.genre}</p>

@@ -1,6 +1,6 @@
 import { useEffect, useState, useCallback } from "react";
+import axios from "axios";
 import { useNavigate } from "react-router-dom";
-import API from "../utils/api"; 
 
 export default function MyBookings() {
   const navigate = useNavigate();
@@ -9,7 +9,7 @@ export default function MyBookings() {
 
   const fetchTickets = useCallback(async () => {
     try {
-      const res = await API.get(`/api/tickets/my/${userId}`);
+      const res = await axios.get(`https://movierulz-z0q0.onrender.com/api/tickets/my/${userId}`);
       setTickets(res.data.tickets);
     } catch (err) {
       console.error("Error fetching tickets:", err);
@@ -24,7 +24,7 @@ export default function MyBookings() {
     if (!window.confirm("Cancel this booking?")) return;
 
     try {
-      await API.put(`/api/tickets/cancel/${id}`);
+      await axios.put(`https://movierulz-z0q0.onrender.com/api/tickets/cancel/${id}`);
       setTickets(tickets.map(t =>
         t._id === id ? { ...t, status: "Cancelled" } : t
       ));
@@ -47,7 +47,7 @@ export default function MyBookings() {
 
       {tickets.map(ticket => (
         <div key={ticket._id} className="booking-card">
-          <img src={`${process.env.REACT_APP_BACKEND_URL || "http://localhost:5000"}${ticket.poster}`} alt={ticket.movieTitle} />
+          <img src={`https://movierulz-z0q0.onrender.com${ticket.poster}`} alt={ticket.movieTitle} />
 
           <div className="booking-info">
             <h3>{ticket.movieTitle}</h3>
